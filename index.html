@@ -1,0 +1,28 @@
+<html style='height:100%'>
+<head>
+	<title>Erachain lib example</title>
+    <script src="nacl-fast.js"></script>
+    <script src="jquery-2.0.0.min.js"></script>
+    <script src="EraChain.js"></script>
+    <script src="Base58.js"></script>
+    <script src="messageProcessing.js"></script>
+    <script>
+        function onBodyLoad() {
+            document.getElementById("information").innerHTML = "EraChain.js загружена<br>";
+            let sign = sendMessageShop();
+            let signBank = sendMessageBank();
+            //getMessageByFilter("125");
+            setTimeout(function addDot(){
+                document.getElementById('information').innerHTML += "telegram<br>";
+                getMessageBySignature(sign);
+                document.getElementById('information').innerHTML += "transaction<br>";
+                getMessageBySignature(signBank);
+            },3000);
+            
+        }
+    </script>
+</head>
+
+<body onload="onBodyLoad()">
+    <div id="information"></div>
+</body>
