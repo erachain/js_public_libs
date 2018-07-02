@@ -6,7 +6,7 @@
 //      специальный кошелек созданный для идентификации данного вида транзакции / 
 //      в примере использован кошелек из версии для разработчиков
 // - третий параметр : адрес API (или RPC) ноды
-let eraChain = new EraChainInvoice("3aoxJdks5ciUS18w4GhEWDK1EJVJyA2YDKZ8buKd5M7LuSgfjRo5AzhSUMFVVMxmtugESmFBFZHumkpQBcnVULWR", "79MXsjo9DEaxzu6kSvJUauLhmQrB4WogsH", "http://89.235.184.251:9067");
+let eraChain = new EraChainInvoice("3aoxJdks5ciUS18w4GhEWDK1EJVJyA2YDKZ8buKd5M7LuSgfjRo5AzhSUMFVVMxmtugESmFBFZHumkpQBcnVULWR", "Dpv5Gi8HjCBgtDN1P1niuPJQCBQ5H8Zob", "http://89.235.184.251:9067");
             
 
 //функция получения сообщений по фильтру идентификатора пользователя
