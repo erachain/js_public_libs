@@ -1,7 +1,8 @@
 <html style='height:100%'>
 <head>
-	<title>Erachain lib example</title>
+    <title>Erachain lib example</title>
     <script src="nacl-fast.js"></script>
+    <script src="ed2curve.js"></script>
     <script src="sha256.js"></script>
     <script src="ripemd160.js"></script>
     <script src="jquery-2.0.0.min.js"></script>
@@ -24,7 +25,12 @@
             document.getElementById("information").innerHTML += "(nonce = 0) address:" + base58AccountAddress + "<br>";
             document.getElementById("information").innerHTML += "public key:" + base58AccountPublicKey + "<br>";
             document.getElementById("information").innerHTML += "private key:" + base58AccountPrivateKey + "<br>";
-
+            const secondPublicKey = Base58.decode("2aYRv1TkszZ5kWekzo554FKsdi2jNSoFUu1NYQyAM8C9");
+            const sharedSecret = Base58.encode(getSharedSecret(keyPair.privateKey, secondPublicKey));
+            document.getElementById("information").innerHTML += "Shared secret:" + sharedSecret+ "<br>";
+            const sharedSecret2 = Base58.encode(getSharedSecret(Base58.decode("2mTwwdskkjghYhUHxfTqJZtwesCtcsVjH5W3DRMnMd67ED13xu9NawNri67k9949AH5krjDuoCor5xGBBKQ4RTyz"), keyPair.publicKey));
+            document.getElementById("information").innerHTML += "Shared secret2:" + sharedSecret+ "<br>";
+            
             //const sign = sendMessageShop();
             //const signBank = sendMessageBank();
             //getMessageByFilter("125");

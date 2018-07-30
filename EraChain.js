@@ -388,3 +388,7 @@ function getAccountAddressFromPublicKey(publicKey) {
 	addressArray = appendBuffer(addressArray, checkSum.subarray(0, 4));
 	return Base58.encode(addressArray);
 }
+
+function getSharedSecret(privateKey, secondPublicKey) {
+    return nacl.scalarMult(ed2curve.convertSecretKey(privateKey),ed2curve.convertSecretKey(secondPublicKey));
+}
