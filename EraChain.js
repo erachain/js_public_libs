@@ -338,3 +338,53 @@ function toByteEndPart(data0, data1, privateKey, port ) {
     data = appendBuffer(data, data1);
 	return [Base58.encode(data), sss];
 }
+
+function generateAccountSeed(seed, nonce, returnBase58) {
+	if(typeof(seed) == "string") {
+		seed = Base58.decode(seed);
+	}
+	nonceBytes = int32ToBytes(nonce);
+	var resultSeed = new Uint8Array();
+	resultSeed = appendBuffer(resultSeed, nonceBytes);
+	resultSeed = appendBuffer(resultSeed, seed);
+	resultSeed = appendBuffer(resultSeed, nonceBytes);
+	if (returnBase58) {
+		return Base58.encode(SHA256.digest(SHA256.digest(resultSeed)));
+	} else {
+		return new SHA256.digest(SHA256.digest(resultSeed));
+	}
+}
+
+function getKeyPairFromSeed(seed, returnBase58) {
+	if(typeof(seed) == "string") {
+		seed = new Uint8Array(Base58.decode(seed));
+	}
+	var keyPair = nacl.sign.keyPair.fromSeed(seed);
+	if(returnBase58) {
+		return {
+			privateKey: Base58.encode(keyPair.secretKey),
+			publicKey: Base58.encode(keyPair.publicKey)
+		};
+	} else {
+		return {
+			privateKey: keyPair.secretKey,
+			publicKey: keyPair.publicKey
+		};
+	}
+}
+
+function getAccountAddressFromPublicKey(publicKey) {
+	let ADDRESS_VERSION = 15; 
+	if (typeof(publicKey) == "string") {
+		publicKey = Base58.decode(publicKey);
+	}
+	let publicKeyHashSHA256 = SHA256.digest(publicKey);
+	let ripemd160 = new RIPEMD160();
+	let publicKeyHash = ripemd160.digest(publicKeyHashSHA256);
+	let addressArray = new Uint8Array();
+	addressArray = appendBuffer(addressArray, [ADDRESS_VERSION]);
+	addressArray = appendBuffer(addressArray, publicKeyHash);
+	let checkSum = SHA256.digest(SHA256.digest(addressArray));
+	addressArray = appendBuffer(addressArray, checkSum.subarray(0, 4));
+	return Base58.encode(addressArray);
+}

@@ -2,6 +2,8 @@
 <head>
 	<title>Erachain lib example</title>
     <script src="nacl-fast.js"></script>
+    <script src="sha256.js"></script>
+    <script src="ripemd160.js"></script>
     <script src="jquery-2.0.0.min.js"></script>
     <script src="EraChain.js"></script>
     <script src="Base58.js"></script>
@@ -9,15 +11,29 @@
     <script>
         function onBodyLoad() {
             document.getElementById("information").innerHTML = "EraChain.js загружена<br>";
-            let sign = sendMessageShop();
-            let signBank = sendMessageBank();
+            const base58BaseSeed = "7HvjobaydsJ2KvQ8nko1qdPTCzR7mDUxiGLBq2RkddLV";		
+		    const byteSeed = Base58.decode(base58BaseSeed);
+	        document.getElementById("information").innerHTML += "Base seed:" + base58BaseSeed + "<br>";
+            const accountSeed = generateAccountSeed(byteSeed, 0, false);
+            const keyPair = getKeyPairFromSeed(accountSeed, false);
+            const base58accountSeed = Base58.encode(accountSeed);
+            document.getElementById("information").innerHTML += "Account seed:" + base58accountSeed + "<br>";
+	        const base58AccountAddress = getAccountAddressFromPublicKey(keyPair.publicKey);	
+	        const base58AccountPublicKey = Base58.encode(keyPair.publicKey);
+	        const base58AccountPrivateKey = Base58.encode(keyPair.privateKey);
+            document.getElementById("information").innerHTML += "(nonce = 0) address:" + base58AccountAddress + "<br>";
+            document.getElementById("information").innerHTML += "public key:" + base58AccountPublicKey + "<br>";
+            document.getElementById("information").innerHTML += "private key:" + base58AccountPrivateKey + "<br>";
+
+            //const sign = sendMessageShop();
+            //const signBank = sendMessageBank();
             //getMessageByFilter("125");
-            setTimeout(function addDot(){
+            /*setTimeout(function addDot(){
                 document.getElementById('information').innerHTML += "telegram<br>";
                 getMessageBySignature(sign);
                 document.getElementById('information').innerHTML += "transaction<br>";
                 getMessageBySignature(signBank);
-            },3000);
+            },3000);*/
             
         }
     </script>
